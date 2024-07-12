@@ -10,6 +10,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from users.models import CustomUser
 from users.serializer import CustomUserSerializer
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import make_password
 
 
 # Create your views here.
@@ -207,5 +208,35 @@ class Doctor(APIView):
                 },
                 status=status.HTTP_200_OK,
             )
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request):
+        try:
+            id = request.data.get("id")
+            print(id)
+            doctor = Doctors.objects.filter(doc_id=id).first()
+            password = request.data.get("password")
+            confirm_password = request.data.get("confirm_password")
+            if doctor:
+                if password != confirm_password:
+                    return Response(
+                        {"error": "The passwords don't match!"},
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
+                else:
+                    doctor.password = make_password(password)
+                    doctor.account_activated = True
+                    doctor.save()
+                    return Response(
+                        {"message": "Doctor successfully added!"},
+                        status=status.HTTP_201_CREATED,
+                    )
+
+            else:
+                return Response(
+                    {"error": "No doctor with that id!"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)

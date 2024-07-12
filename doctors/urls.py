@@ -7,5 +7,5 @@ urlpatterns = [
         DoctorVerification.as_view(),
         name="doctor_verfication",
     ),
-    path("edit_requests/<int:id>", DoctorVerification.as_view(), name="edit_requests"),
+    path("edit_requests/<int:id>/", DoctorVerification.as_view(), name="edit_requests"),
 ]

@@ -3,15 +3,12 @@ from datetime import timedelta
 from pathlib import Path
 import os
 from django.core.management.utils import get_random_secret_key
-import json
+
 from dotenv import load_dotenv
 
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-with open(BASE_DIR / "secrets.json") as f:
-    secrets = json.load(f)
 
 
 # Quick-start development settings - unsuitable for production
@@ -163,9 +160,6 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 SESSION_COOKIE_AGE = 86400
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
 
 
 MEDIA_URL = "/media/"

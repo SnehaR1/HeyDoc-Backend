@@ -72,6 +72,7 @@ class Doctors(models.Model):
     email = models.EmailField(unique=True, null=False, blank=False)
     password = models.CharField(null=True, default="")
     isActive = models.BooleanField(default=True)
+    account_activated = models.BooleanField(default=False)
 
 
 class Availability(models.Model):
